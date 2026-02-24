@@ -10,13 +10,16 @@ load_dotenv()
 
 llm = ChatOpenAI()
 
+
 class ChatState(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
 
+
 def chat_node(state: ChatState):
-    messages = state['messages']
+    messages = state["messages"]
     response = llm.invoke(messages)
     return {"messages": [response]}
+
 
 # Checkpointer
 checkpointer = InMemorySaver()
