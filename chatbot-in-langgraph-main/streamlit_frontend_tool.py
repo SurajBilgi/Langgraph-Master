@@ -3,9 +3,11 @@ from langgraph_tool_backend import chatbot, retrieve_all_threads
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 import uuid
 
+
 # =========================== Utilities ===========================
 def generate_thread_id():
     return uuid.uuid4()
+
 
 def reset_chat():
     thread_id = generate_thread_id()
@@ -13,14 +15,17 @@ def reset_chat():
     add_thread(thread_id)
     st.session_state["message_history"] = []
 
+
 def add_thread(thread_id):
     if thread_id not in st.session_state["chat_threads"]:
         st.session_state["chat_threads"].append(thread_id)
+
 
 def load_conversation(thread_id):
     state = chatbot.get_state(config={"configurable": {"thread_id": thread_id}})
     # Check if messages key exists in state values, return empty list if not
     return state.values.get("messages", [])
+
 
 # ======================= Session Initialization ===================
 if "message_history" not in st.session_state:

@@ -41,7 +41,9 @@ def _get_retriever(thread_id: Optional[str]):
     return None
 
 
-def ingest_pdf(file_bytes: bytes, thread_id: str, filename: Optional[str] = None) -> dict:
+def ingest_pdf(
+    file_bytes: bytes, thread_id: str, filename: Optional[str] = None
+) -> dict:
     """
     Build a FAISS retriever for the uploaded PDF and store it for the thread.
 
@@ -127,7 +129,7 @@ def calculator(first_num: float, second_num: float, operation: str) -> dict:
 @tool
 def get_stock_price(symbol: str) -> dict:
     """
-    Fetch latest stock price for a given symbol (e.g. 'AAPL', 'TSLA') 
+    Fetch latest stock price for a given symbol (e.g. 'AAPL', 'TSLA')
     using Alpha Vantage with API key in the URL.
     """
     url = (
@@ -165,6 +167,7 @@ def rag_tool(query: str, thread_id: Optional[str] = None) -> dict:
 
 tools = [search_tool, get_stock_price, calculator, rag_tool]
 llm_with_tools = llm.bind_tools(tools)
+
 
 # -------------------
 # 4. State
@@ -217,6 +220,7 @@ graph.add_conditional_edges("chat_node", tools_condition)
 graph.add_edge("tools", "chat_node")
 
 chatbot = graph.compile(checkpointer=checkpointer)
+
 
 # -------------------
 # 8. Helpers

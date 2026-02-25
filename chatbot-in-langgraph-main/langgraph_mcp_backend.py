@@ -49,7 +49,7 @@ search_tool = DuckDuckGoSearchRun(region="us-en")
 @tool
 def get_stock_price(symbol: str) -> dict:
     """
-    Fetch latest stock price for a given symbol (e.g. 'AAPL', 'TSLA') 
+    Fetch latest stock price for a given symbol (e.g. 'AAPL', 'TSLA')
     using Alpha Vantage with API key in the URL.
     """
     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey=C9PE94QUEW9VWGFM"
@@ -66,8 +66,8 @@ client = MultiServerMCPClient(
         },
         "expense": {
             "transport": "streamable_http",  # if this fails, try "sse"
-            "url": "https://splendid-gold-dingo.fastmcp.app/mcp"
-        }
+            "url": "https://splendid-gold-dingo.fastmcp.app/mcp",
+        },
     }
 )
 
@@ -84,11 +84,13 @@ mcp_tools = load_mcp_tools()
 tools = [search_tool, get_stock_price, *mcp_tools]
 llm_with_tools = llm.bind_tools(tools) if tools else llm
 
+
 # -------------------
 # 3. State
 # -------------------
 class ChatState(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
+
 
 # -------------------
 # 4. Nodes
@@ -129,6 +131,7 @@ else:
     graph.add_edge("chat_node", END)
 
 chatbot = graph.compile(checkpointer=checkpointer)
+
 
 # -------------------
 # 7. Helper
